@@ -1,10 +1,19 @@
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Player788/luau1/main/source.lua')))()
-local Window = Library:Window({Name = "ESDRP", ScriptName = "REDD", Creator = "Player788", Icon = "rbxassetid://2649573307", Hotkey = {"Semicolon", false}, Save = true, SaveFolderName = "Test2"})
+local Window = Library:Window({Hotkey = {"Tab", true}})
 local Tab = Window:AddTab("Local")
 
 local Sect = Tab:AddSection("Local")
 
+local running = true
+
 local tog1 = false
+Sect:AddButton({
+	Text = "Delete",
+	Callback = function()
+		running = false
+		Library:Destroy()
+	end
+})
 Sect:AddLabel("World")
 Sect:AddToggle({
 	Text = "DISABLE NLR",
@@ -19,6 +28,7 @@ Sect:AddTextBox({
 	Text = "Save teleport location",
 	Default = "Name?",
 	Callback = function(v)
+		if v == "" then Library:Notification({Content = "This teleport name is invalid"}) return end
 		if tps[v] then Library:Notification({Content = "This teleport name already exists"}) return end
 		tps[v] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		dd:Refresh({v},false)
@@ -183,6 +193,7 @@ refreshent()
 refreshprints()
 refreshplrs()
 while true do
+	if not running then return end
 	if tog1 then
 		for i, v in pairs(game.Workspace:GetChildren()) do
 			if v.Name == "NL" then
@@ -196,21 +207,38 @@ while true do
 	if tog2 then
 		local Players = game.Players
 		for i, v in pairs(Players:GetChildren()) do
-			if v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") then
-				local n = v.Character.HumanoidRootPart
-				n.Transparency = 0.3
-				n.CanCollide = false
-				n.Size = Vector3.new(45, 45, 45)
+			repeat wait() until game.Players.LocalPlayer:HasAppearanceLoaded()
+			if v.Name ~= game.Players.LocalPlayer.Name then
+				local s, e = pcall(function()
+					return v.Character.HumanoidRootPart
+				end)
+				if s then
+					local n = v.Character.HumanoidRootPart
+					n.Transparency = 0.3
+					n.CanCollide = false
+					n.Size = Vector3.new(45, 45, 45)
+				else
+
+				end
+
 			end
 		end
 	else
 		local Players = game.Players
 		for i, v in pairs(Players:GetChildren()) do
-			if v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") then
-				local n = v.Character.HumanoidRootPart
-				n.Transparency = 1
-				n.CanCollide = true
-				n.Size = dn
+			repeat wait() until game.Players.LocalPlayer:HasAppearanceLoaded()
+			if v.Name ~= game.Players.LocalPlayer.Name then
+				local s, e = pcall(function()
+					return v.Character.HumanoidRootPart
+				end)
+				if s then
+					local n = v.Character.HumanoidRootPart
+					n.Transparency = 1
+					n.CanCollide = true
+					n.Size = dn
+				else
+
+				end
 			end
 		end	
 	end
