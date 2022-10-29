@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Player788/luau1/main/source.lua')))()
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Player788/luau1/main/source.lua'))()
 local Window = Library:Window({Hotkey = {"Tab", true}})
 local Tab = Window:AddTab("Local")
 
