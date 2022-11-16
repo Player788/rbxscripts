@@ -1,5 +1,5 @@
 local join = {}
-_G.v = 0.16
+_G.v = 0.17
 join.Join = function(userId)
 
 	local user_id = tostring(userId)
@@ -11,8 +11,15 @@ join.Join = function(userId)
 	local image_request = http_request({
 		Url = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=".. user_id .. "&size=150x150&format=Png&isCircular=false"
 	})
-
-	local image_url = http_service:JSONDecode(image_request.Body).data[1].imageUrl
+	
+	local image_url
+	local success,err = pcall(function()
+		image_url = http_service:JSONDecode(image_request.Body).data[1].imageUrl	
+	end)
+	if success then
+	else
+	return {Success = false, Message = "Invalid UserId (number expected or number too short)"}
+	end
 
 	local servers, cursor = {}
 
