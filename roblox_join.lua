@@ -18,7 +18,7 @@ join.Join = function(userId)
 	end)
 	if success then
 	else
-	return {Success = false, Message = "Invalid UserId (number expected or invalid length)"}
+	return {Success = false, Message = "Invalid UserId (number expected or invalid ID)"}
 	end
 
 	local servers, cursor = {}
