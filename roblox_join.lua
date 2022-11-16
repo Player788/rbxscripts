@@ -1,4 +1,4 @@
-_G.v = 0.12
+_G.v = 0.14
 _G.Join = function(userId)
 
 	local user_id = tostring(userId)
@@ -51,15 +51,10 @@ _G.Join = function(userId)
 			end
 			for _, v in next, post_data do
 				if v.imageUrl == image_url then
-					--warn("found server " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n")				--game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)
-					--break 
-					--join = {true, "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
-					return {true, "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
+					return {Success = true, Message = "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds", wait(2), game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
 				end
 			end
 		end
-		--warn("Server not found")
-		--join = {false, "Server not found"}
-		return {false, "Server not found"}
+		return {Success = false, Message = "Server not found"}
 	--end)
 end
