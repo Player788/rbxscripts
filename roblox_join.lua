@@ -54,12 +54,14 @@ join.Join = function(userId)
 				if v.imageUrl == image_url then
 					--warn("found server " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n")				--game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)
 					--break 
-					return {true, "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
+					join = {true, "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
+					--return {true, "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds\n", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
 				end
 			end
 		end
 		--warn("Server not found")
-		return {false, "Server not found"}
+		join = {false, "Server not found"}
+		--return {false, "Server not found"}
 	end)
 end
 return join
