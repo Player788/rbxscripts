@@ -1,3 +1,4 @@
+_G.v = 0.1
 _G.Join = function(userId)
 
 	local user_id = tostring(userId)--"459999513"
