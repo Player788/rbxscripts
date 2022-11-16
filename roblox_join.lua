@@ -1,4 +1,4 @@
-_G.v = 0.1
+_G.v = 0.12
 _G.Join = function(userId)
 
 	local user_id = tostring(userId)--"459999513"
@@ -23,7 +23,7 @@ _G.Join = function(userId)
 	data = http_service:JSONDecode(data.Body)
 	index = index + 1
 	cursor = data.nextPageCursor
-	task.spawn(function()
+	--task.spawn(function()
 		for _, server in pairs(data.data) do
 			local server_data = {}
 			for i = 1, #server.playerTokens do
@@ -61,5 +61,5 @@ _G.Join = function(userId)
 		--warn("Server not found")
 		--join = {false, "Server not found"}
 		return {false, "Server not found"}
-	end)
+	--end)
 end
