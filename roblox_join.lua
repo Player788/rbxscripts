@@ -1,7 +1,7 @@
 _G.v = 0.12
 _G.Join = function(userId)
 
-	local user_id = tostring(userId)--"459999513"
+	local user_id = tostring(userId)
 	local game_id = tostring(game.PlaceId)
 	local http_request = (syn and syn.request) or (http and http.request) or http_request
 	local start_tick = tick()
