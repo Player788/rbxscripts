@@ -1,5 +1,5 @@
 local join = {}
-_G.v = 0.15
+_G.v = 0.16
 join.Join = function(userId)
 
 	local user_id = tostring(userId)
