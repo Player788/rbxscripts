@@ -52,10 +52,12 @@ join.Join = function(userId)
 			end
 			for _, v in next, post_data do
 				if v.imageUrl == image_url then
+					print("Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds")
 					return {Success = true, Message = "Server found " .. v.requestId .. " in " .. math.floor(tick() - start_tick) .. " seconds", game:GetService("TeleportService"):TeleportToPlaceInstance(game_id, v.requestId)}
 				end
 			end
 		end
+		print("Server not found")
 		return {Success = false, Message = "Server not found"}
 	--end)
 end
