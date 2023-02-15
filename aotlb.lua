@@ -67,7 +67,19 @@ local IG_TOGGLE = LF1:AddToggle{
         end
 	end
 }
-
+local DE = false
+local DE_TOGGLE = LF1:AddToggle{
+	Name = "DISABLE EFFECTS (No Lag)",
+	Default = false,
+	Callback = function(Bool)
+        DE = Bool
+        if Bool then
+            Library:Notification{Content = "EFFECTS : ENABLED"}
+        else
+            Library:Notification{Content = "EFFECTS : DISABLED"}
+        end
+	end
+}
 local RF1 = Tab1:RightSection("Titans")
 local EN = false
 local EN_TOGGLE = RF1:AddToggle{
@@ -170,8 +182,28 @@ spawn(function()
                         player.Character.HumanoidRootPart.CFrame = CFrame.new(v.Nape.Position) + Vector3.new(0,100,0)
                         workspace.Settings.Input:FireServer(code, v.Nape)
                     end
-		end)
+				end)
             end
+        end
+    end
+end)
+
+spawn(function()
+    while wait(5) do
+        if DE == true then
+            if not player.Character:FindFirstChild("LeftHarpoon") then return end
+            for i, v in pairs(player.Character.LeftHarpoon:GetChildren()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Decal") or v:IsA("Script") then
+                    v:Destroy()
+                end
+            end
+            for i, v in pairs(player.Character.RightHarpoon:GetChildren()) do
+                if v:IsA("ParticleEmitter") or v:IsA("Decal") or v:IsA("Script") then
+                    v:Destroy()
+                end
+            end
+        else
+
         end
     end
 end)
