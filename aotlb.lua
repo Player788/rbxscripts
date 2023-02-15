@@ -47,6 +47,9 @@ local LM_TOGGLE = LF1:AddToggle{
 		    game.Players.LocalPlayer.Backpack.ODM.Velocity.Value = 500
 		    game.Players.LocalPlayer.Info.ODM.Range.Value = 50000
 		    game.Players.LocalPlayer.Info.ODM.Length.Value = 50000
+            Library:Notification{Content = "LEVI MODE : ENABLED"}
+        else
+            Library:Notification{Content = "LEVI MODE : DISABLED"}
         end
         game.Players.LocalPlayer.Character.Humanoid.Health = 0
 	end
@@ -57,16 +60,26 @@ local IG_TOGGLE = LF1:AddToggle{
 	Default = false,
 	Callback = function(Bool)
         IG = Bool
+        if Bool then
+            Library:Notification{Content = "INFINITE GAS : ENABLED"}
+        else
+            Library:Notification{Content = "INFINITE GAS : DISABLED"}
+        end
 	end
 }
 
 local RF1 = Tab1:RightSection("Titans")
 local EN = false
 local EN_TOGGLE = RF1:AddToggle{
-	Name = "EXPOSE NAPE",
+	Name = "EXPOSE NAPES",
 	Default = false,
 	Callback = function(Bool)
         EN = Bool
+        if Bool then
+            Library:Notification{Content = "EXPOSE NAPES : ENABLED"}
+        else
+            Library:Notification{Content = "EXPOSE NAPES : DISABLED"}
+        end
 	end
 }
 local AF = false
@@ -75,6 +88,11 @@ local AF_TOGGLE = RF1:AddToggle{
 	Default = false,
 	Callback = function(Bool)
         AF = Bool
+        if Bool then
+            Library:Notification{Content = "AUTO - FARM : ENABLED"}
+        else
+            Library:Notification{Content = "AUTO - FARM : DISABLED"}
+        end
 	end
 }
 
@@ -140,15 +158,15 @@ end)
 spawn(function()
     while wait(1) do
         if AF == true then
-            local titans = workspace.Titans:GetChildren()
+            local titans = workspace.Titans
             for i, v in pairs(titans:GetChildren()) do
                 pcall(function()
-                    if v:FindFirstChild("Nape") then
-                        if player:DistanceFromCharacter(v.Nape.Position) < 8 * 10 then
-                            workspace.Settings.Input:FireServer(code, v.Nape)
-                        else
-                            Library:Notification{Content = err}
-                        end
+                    if v:FindFirstChild("Nape") and v.Main.Died.Value == false then
+                        -- if player:DistanceFromCharacter(v.Nape.Position) < 8 * 10 then
+                        --     workspace.Settings.Input:FireServer(code, v.Nape)
+                        -- else
+                        --     Library:Notification{Content = err}
+                        -- end
                         player.Character.HumanoidRootPart.CFrame = CFrame.new(v.Nape.Position) + Vector3.new(0,100,0)
                         workspace.Settings.Input:FireServer(code, v.Nape)
                     end
@@ -157,63 +175,3 @@ spawn(function()
         end
     end
 end)
-
--- while wait() do
--- 	if (updatetog3) then
--- 		local titans = workspace.Titans:GetChildren()
--- 		for i = 1, #titans do local v = titans[i]
--- 			local fetch, err = pcall(function()
--- 				return v.Main.Died, v.Nape, player.Character.HumanoidRootPart
--- 			end)
--- 			if (fetch) then
--- 				repeat --wait() until player.Character.Humanoid.Health ~= 0
--- 				pcall(function()
--- 					player.Character.HumanoidRootPart.CFrame = CFrame.new(v.Nape.Position) + Vector3.new(0,100,0)
--- 				end)
--- 				wait()		
--- 				workspace.Settings.Input:FireServer(code, v.Nape)
--- 				until v.Main.Died.Value or not updatetog3 or not v.Nape
--- 			elseif player:DistanceFromCharacter(v.Nape.Position) < 8 * 10 then
--- 				workspace.Settings.Input:FireServer(code, v.Nape)
--- 				wait()
--- 			else
--- 				Library:Notification({Content = err,})
--- 			end
--- 			wait(0.2)
--- 		end
--- 	end
--- 	if (updatetog2) then
--- 		game.Players.LocalPlayer.Info.ODM.Durability.Value = 1000
--- 		game.Players.LocalPlayer.Backpack.ODM.Velocity.Value = 500
--- 		game.Players.LocalPlayer.Info.ODM.Range.Value = 50000
--- 		game.Players.LocalPlayer.Info.ODM.Length.Value = 50000
--- 	else
--- 		game.Players.LocalPlayer.Info.ODM.Durability.Value = default_dur
--- 		game.Players.LocalPlayer.Backpack.ODM.Velocity.Value = default_vel
--- 		game.Players.LocalPlayer.Info.ODM.Range.Value = default_range
--- 		game.Players.LocalPlayer.Info.ODM.Length.Value = default_len	
--- 	end
--- 	if (updatetog1) then
--- 		local titans = game.Workspace.Titans
--- 		for i, v in pairs(titans:GetChildren()) do
--- 			if v.Name ~= "EREN" and v.Nape then
--- 				local n = v.Nape
--- 				n.Transparency = 0.3
--- 				n.Size = Vector3.new(100, 100, 100)
--- 			end
--- 		end
--- 	else
--- 		local titans = game.Workspace.Titans
--- 		for i, v in pairs(titans:GetChildren()) do
--- 			if v.Name ~= "EREN" and v.Nape then
--- 				local n = v.Nape
--- 				n.Transparency = 1
--- 				n.Size = Vector3.new(dn, dn, dn)
--- 			end
--- 		end	
--- 	end
--- 	if (updatetog4) then
--- 		wait(3)
--- 		fireclickdetector(workspace.Charge.ClickDetector)
--- 	end
--- end
