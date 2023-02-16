@@ -24,7 +24,7 @@ local Window = Library:Window({
 	Script = "Levi",
 	Sounds = true,
 })
-Library:Notification{Title = "Attack on Titan Last Breath", Content = "Levi", Time = 10}
+Library:Notification{Title = "Attack on Titan Last Breath", Content = "Eren Mission not yet supported", Time = 10}
 
 repeat wait() until player:HasAppearanceLoaded()
 -- repeat wait() until player.Character.Humanoid
