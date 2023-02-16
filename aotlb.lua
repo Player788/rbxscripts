@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Player788/Exec-UI-Library/main/src.lua'))()
+
 local player, code = game.Players.LocalPlayer
 local getCode,getBypass = true,true
 for i,v in pairs(getgc(true)) do
@@ -13,17 +13,19 @@ for i,v in pairs(getgc(true)) do
 		getBypass = false
 	end
 end
-if getCode or getBypass then
+if getCode or getBypass and game.PlaceId ~= 6860481136 then
 	player:Kick("Failed to bypass")
 	return
 end
-Library:Notification{Title = "Attack on Titan Last Breath", Content = "Menu only works in OPEN ROAM gamemode!", Time = 10}
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Player788/Exec-UI-Library/main/src.lua'))()
 local Window = Library:Window({
 	Name = "Attack on Titan Last Breath", 
 	Creator = "Player788",
 	Script = "Levi",
 	Sounds = true,
 })
+Library:Notification{Title = "Attack on Titan Last Breath", Content = "Levi", Time = 10}
+
 repeat wait() until player:HasAppearanceLoaded()
 -- repeat wait() until player.Character.Humanoid
 
@@ -51,19 +53,21 @@ local LM_TOGGLE = LF1:AddToggle{
         else
             Library:Notification{Content = "LEVI MODE : DISABLED"}
         end
-        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        if game.PlaceId == 8196884255 then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end
 	end
 }
 local IG = false
 local IG_TOGGLE = LF1:AddToggle{
-	Name = "INFINITE GAS",
+	Name = "INFINITE CHARGE",
 	Default = false,
 	Callback = function(Bool)
         IG = Bool
         if Bool then
-            Library:Notification{Content = "INFINITE GAS : ENABLED"}
+            Library:Notification{Content = "INFINITE CHARGE : ENABLED"}
         else
-            Library:Notification{Content = "INFINITE GAS : DISABLED"}
+            Library:Notification{Content = "INFINITE CHARGE : DISABLED"}
         end
 	end
 }
@@ -96,14 +100,14 @@ local EN_TOGGLE = RF1:AddToggle{
 }
 local AF = false
 local AF_TOGGLE = RF1:AddToggle{
-	Name = "AUTO - FARM",
+	Name = "AUTO - FARM / KILL TITANS",
 	Default = false,
 	Callback = function(Bool)
         AF = Bool
         if Bool then
-            Library:Notification{Content = "AUTO - FARM : ENABLED"}
+            Library:Notification{Content = "AUTO - FARM / KILL TITANS : ENABLED"}
         else
-            Library:Notification{Content = "AUTO - FARM : DISABLED"}
+            Library:Notification{Content = "AUTO - FARM / KILL TITANS : DISABLED"}
         end
 	end
 }
@@ -130,7 +134,16 @@ spawn(function()
     while wait(0.5) do
        -- if game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
             if IG == true then
-                fireclickdetector(workspace.Charge.ClickDetector)
+                if game.PlaceId == 8196884255 then -- Free
+                    fireclickdetector(workspace.Charge.ClickDetector)
+                elseif game.PlaceId == 3600972202 then -- Town
+                    workspace.Settings.Input:FireServer("Charge", 1)
+                    fireclickdetector(workspace.Charge2.ClickDetector)
+                elseif game.PlaceId == 6860481136 then -- Reiner
+                    local cd = workspace.Horses:FindFirstChild(player.Name).Supplies.Reload
+                    workspace.Settings.Input:FireServer("ClickDetector", cd)
+                end
+                
             end
        -- end
     end
