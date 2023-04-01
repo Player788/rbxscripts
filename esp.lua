@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1B"
+_G.ESPVERSION = "1C"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -11,7 +11,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 	local ESP = {
 		Texts = {
 			Enabled = true,
-			TextColor = "20, 90, 255",
+			TextColor = Color3.fromRGB(20, 90, 255),
 			TextSize = 14,
 			Center = true,
 			Outline = true,
@@ -27,12 +27,12 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 			--Type = 1, -- 1 - Bottom; 2 - Center; 3 - Mouse
 			Transparency = 0.7,
 			Thickness = 1,
-			Color = "50, 120, 255"
+			Color = Color3.fromRGB(50, 120, 255)
 		},
 		Boxes = {
 			Enabled = true,
 			--Type = 1; -- 1 - 3D; 2 - 2D;
-			Color = "50, 120, 255",
+			Color = Color3.fromRGB(50, 120, 255),--"50, 120, 255",
 			Transparency = 0.7,
 			Thickness = 1,
 			Filled = false, -- For 2D
@@ -74,8 +74,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 				Table.Text.Size = ESP.Texts.TextSize
 				Table.Text.Center = ESP.Texts.Center
 				Table.Text.Outline = ESP.Texts.Outline
-				--Table.Text.OutlineColor = GetColor(Environment.Visuals.ESPSettings.OutlineColor)
-				--Table.Text.Color = GetColor(Environment.Visuals.ESPSettings.TextColor)
+				Table.Text.OutlineColor = ESP.Texts.OutlineColor
+				Table.Text.Color = ESP.Texts.TextColor
 				Table.Text.Transparency = ESP.Texts.TextTransparency
 				Table.Text.Font = ESP.Texts.TextFont
 
@@ -206,6 +206,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 	end
 
 	local function Load() -- check if player or not then send appropriate model
+		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
+		--Wrap(v[part])
 		for _, v in next, Parent:GetChildren() do
 			UnWrap(v.Part)
 		end
