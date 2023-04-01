@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1D"
+_G.ESPVERSION = "1E"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -218,7 +218,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
 			Wrap(v.Part)
 		end)
-		Connections.ChildRemoving = Parent.ChildRemoving:Connect(function(v)
+		Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
 			UnWrap(v.Part)
 		end)
 	end
