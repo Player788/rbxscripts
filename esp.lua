@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = 1A
+_G.ESPVERSION = "1A"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
