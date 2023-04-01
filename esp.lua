@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1F"
+_G.ESPVERSION = "1G"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -209,17 +209,17 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
 		--Wrap(v[part])
 		for _, v in next, Parent:GetChildren() do
-			UnWrap(v:FindFirstChildOfClass("BasePart"))
+			UnWrap(v)
 		end
 
 		for _, v in next, Parent:GetChildren() do
-			Wrap(v:FindFirstChildOfClass("BasePart"))
+			Wrap(v)
 		end
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
-			Wrap(v:FindFirstChildOfClass("BasePart"))
+			Wrap(v)
 		end)
 		Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
-			UnWrap(v:FindFirstChildOfClass("BasePart"))
+			UnWrap(v)
 		end)
 	end
 	Load()
