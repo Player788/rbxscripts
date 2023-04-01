@@ -205,17 +205,17 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 
 	local function Load() -- check if player or not then send appropriate model
 		for _, v in next, Parent:GetChildren() do
-			UnWrap(v)
+			UnWrap(v.Part)
 		end
 
 		for _, v in next, Parent:GetChildren() do
-			Wrap(v)
+			Wrap(v.Part)
 		end
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
-			Wrap(v)
+			Wrap(v.Part)
 		end)
 		Connections.ChildRemoving = Parent.ChildRemoving:Connect(function(v)
-			UnWrap(v)
+			UnWrap(v.Part)
 		end)
 	end
 	Load()
