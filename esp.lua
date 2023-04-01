@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1C"
+_G.ESPVERSION = "1D"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -103,7 +103,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 					Content = Content.." "..Parts.Distance
 				end
 
-				Table.Text = Content
+				Table.Text.Text = Content
 			end
 
 			if OnScreen then
