@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1A"
+_G.ESPVERSION = "1B"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -17,7 +17,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 			Outline = true,
 			OutlineColor = "0, 0, 0",
 			TextTransparency = 0.7,
-			--TextFont = Drawing.Fonts.Monospace, -- UI, System, Plex, Monospace
+			TextFont = Drawing.Fonts.Monospace, -- UI, System, Plex, Monospace
 			DisplayDistance = true,
 			DisplayHealth = true,
 			DisplayName = true
