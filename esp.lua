@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1q"
+_G.ESPVERSION = "1r"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -60,20 +60,15 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	end
 
 
-	local function AddText(BasePart)
-		local Table = GetTable(BasePart)
+	local function AddText(Model)
+		local Table = GetTable(Model)
 		Table.Text = Draw("Text")
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
-			--if Player.Character and Player.Character:FindFirstChild("Humanoid") and Player.Character:FindFirstChild("Head") and Player.Character:FindFirstChild("HumanoidRootPart") and Environment.Settings.Enabled then
-			local Model = BasePart
+			--local Model = BasePart
 			if Players_ESP then
-				--repeat wait() until BasePart:HasAppearanceLoaded()
-				--if BasePart:HasAppearanceLoaded() then
-					--Model = Model.Character.Head
-				--end
-				if BasePart.Character and BasePart.Character:FindFirstChild("Humanoid") and BasePart.Character:FindFirstChild("Head") and BasePart.Character:FindFirstChild("HumanoidRootPart") then
-					Model = BasePart.Character.Head
+				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
+					Model = Model.Character.Head
 				end
 				
 			end
@@ -93,9 +88,9 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				Table.Text.Position = Vector2.new(Vector.X, Vector.Y - 25)
 
 				local Parts = {
-					--Health = "("..tostring(Player.Character.Humanoid.Health)..")",
+					Health = 0,--"("..tostring(Player.Character.Humanoid.Health)..")",
 					Distance = "["..tostring(math.floor((Model.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
-					Name = BasePart.Name
+					Name = Model.Name
 				}
 
 				local Content = ""
@@ -103,13 +98,9 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				if ESP.Texts.DisplayName then
 					Content = Parts.Name..Content
 				end
-				--if Environment.Visuals.ESPSettings.DisplayHealth then
-				--	if Environment.Visuals.ESPSettings.DisplayName then
-				--		Content = Parts.Health.." "..Content
-				--	else
-				--		Content = Parts.Health..Content
-				--	end
-				--end
+				if ESP.Texts.DisplayHealth and ESP.Texts.DisplayName then
+					Content = Content .. "" .. tostring(Model.Parent.Humanoid.Health)
+				end
 				if ESP.Texts.DisplayDistance then
 					Content = Content.." "..Parts.Distance
 				end
