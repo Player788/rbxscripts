@@ -75,6 +75,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				end
 			else
 				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
+				Model = Model.Parent
 			end
 
 			Table.Text.Visible = ESP.Texts.Enabled
