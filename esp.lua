@@ -212,7 +212,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 			UnWrap(v)
 		end
 
-		for _, v in next, Parent:GetChildren() do
+		for _, v in pairs(Parent:GetChildren()) do
 			Wrap(v)
 		end
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
