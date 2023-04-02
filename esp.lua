@@ -61,7 +61,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 
 	local function AddText(Model)
 		local Table = GetTable(Model)
-		print(Model.Name)
 		Table.Text = Draw("Text")
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
@@ -171,7 +170,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 		end
 
 		if not Table then
-			print(Model.Name)
 			Wrapped[#Wrapped + 1] = Value
 
 			AddText(Model)
