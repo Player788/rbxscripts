@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1s"
+_G.ESPVERSION = "1t"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -16,7 +16,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			TextSize = 14,
 			Center = true,
 			Outline = true,
-			OutlineColor = "0, 0, 0",
+			OutlineColor = Color3.fromRGB(0,0,0),
 			TextTransparency = 0.7,
 			TextFont = Drawing.Fonts.Monospace, -- UI, System, Plex, Monospace
 			DisplayDistance = true,
@@ -25,7 +25,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		},
 		Tracers = {
 			Enabled = true,
-			--Type = 1, -- 1 - Bottom; 2 - Center; 3 - Mouse
+			Type = 1, -- 1 - Bottom; 2 - Center; 3 - Mouse
 			Transparency = 0.7,
 			Thickness = 1,
 			Color = Color3.fromRGB(50, 120, 255)
@@ -98,7 +98,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					Content = Parts.Name..Content
 				end
 				if ESP.Texts.DisplayHealth and ESP.Texts.DisplayName then
-					Content = Content .. "" .. tostring(Model.Character.Humanoid.Health)
+					Content = "(" .. tostring(Model.Character.Humanoid.Health) .. ") " .. Content
 				end
 				if ESP.Texts.DisplayDistance then
 					Content = Content.." "..Parts.Distance
@@ -109,26 +109,27 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 			if OnScreen then
 				if ESP.Texts.Enabled then
-					--local Checks = {Alive = true, Team = true}
+					if Players_ESP then
+						local Checks = {Alive = true, Team = true}
 
-					--if ESP.Texts.AliveCheck then
-					--	Checks.Alive = (Player.Character:FindFirstChild("Humanoid").Health > 0)
-					--else
-					--	Checks.Alive = true
-					--end
+						if ESP.Texts.AliveCheck then
+							Checks.Alive = (Model.Character:FindFirstChild("Humanoid").Health > 0)
+						else
+							Checks.Alive = true
+						end
 
-					--if Environment.Settings.TeamCheck then
-					--	Checks.Team = (Player.TeamColor ~= LocalPlayer.TeamColor)
-					--else
-					--	Checks.Team = true
-					--end
+						if ESP.Settings.TeamCheck then
+							Checks.Team = (Model.TeamColor ~= LocalPlayer.TeamColor)
+						else
+							Checks.Team = true
+						end
 
-					--if Checks.Alive and Checks.Team then
-					--	PlayerTable.ESP.Visible = true
-					--else
-					--	PlayerTable.ESP.Visible = false
-					--end
-
+						if Checks.Alive and Checks.Team then
+							Table.Text.Visible = true
+						else
+							Table.Text.Visible = false
+						end
+					end
 					if Table.Text.Visible then
 						UpdateESP()
 					end
@@ -142,8 +143,77 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	local function AddBox(BasePart)
 
 	end
-	local function AddTracer(BasePart)
+	
+	local function AddTracer(Model)
+		local Table = GetTable(Model)
+		Table.Tracter = Draw("Line")
 
+		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()
+			local BasePart = Model
+			if Players_ESP then
+				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
+					BasePart = Model.Character.HumanoidRootPart
+				end	
+			end
+			
+			local HRPCFrame, HRPSize = BasePart.CFrame,BasePart.Size
+			local Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
+			Table.Tracer.Visible = ESP.Tracers.Enabled
+
+			local function UpdateTracer()
+				Table.Tracer.Thickness = ESP.Tracers.Thickness
+				Table.Tracer.Color = Color3.fromRGB(ESP.Tracers.Color)
+				Table.Tracer.Transparency = ESP.Tracers.Transparency
+
+				Table.Tracer.To = Vector2.new(Vector.X, Vector.Y)
+
+				if ESP.Tracers.Type == 1 then
+					Table.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+				elseif ESP.Tracers.Type == 2 then
+					Table.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+				elseif ESP.Tracers.Type == 3 then
+					Table.Tracer.From = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
+				else
+					Table.Tracer.From = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+				end
+			end
+
+			if OnScreen then
+				if ESP.Tracers.Enabled then
+					if Players_ESP then
+						local Checks = {Alive = true, Team = true}
+
+						if ESP.Texts.AliveCheck then
+							Checks.Alive = (Model.Character:FindFirstChild("Humanoid").Health > 0)
+						else
+							Checks.Alive = true
+						end
+
+						if ESP.Settings.TeamCheck then
+							Checks.Team = (Model.TeamColor ~= LocalPlayer.TeamColor)
+						else
+							Checks.Team = true
+						end
+
+						if Checks.Alive and Checks.Team then
+							Table.Text.Visible = true
+						else
+							Table.Text.Visible = false
+						end
+					end
+					
+
+					if Table.Tracer.Visible then
+						UpdateTracer()
+					end
+				end
+			else
+				Table.Tracer.Visible = false
+			end
+			--else
+			--PlayerTable.Tracer.Visible = false
+			--end
+		end)
 	end
 
 	local self = setmetatable({}, {
@@ -244,7 +314,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				end						
 			end)
 		end
-		
+
 	end
 	Load()
 	return self
