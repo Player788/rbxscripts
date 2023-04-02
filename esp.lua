@@ -20,7 +20,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			TextSize = 14,
 			Center = true,
 			Outline = true,
-			OutlineColor = Color3.fromRGB(0,0,0),
+			OutlineColor = Color3.fromRGB(255, 255, 255),
 			TextTransparency = 0.7,
 			TextFont = Drawing.Fonts.Monospace, -- UI, System, Plex, Monospace
 			DisplayDistance = true,
