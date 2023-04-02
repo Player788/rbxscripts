@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1n"
+_G.ESPVERSION = "1o"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -68,7 +68,10 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			--if Player.Character and Player.Character:FindFirstChild("Humanoid") and Player.Character:FindFirstChild("Head") and Player.Character:FindFirstChild("HumanoidRootPart") and Environment.Settings.Enabled then
 			if Players_ESP then
 				repeat wait() until Model:HasAppearanceLoaded()
-				Model = Model.Character.HumanoidRootPart
+				if Model:HasAppearanceLoaded() then
+					Model = Model.Character.HumanoidRootPart
+				end
+				
 			end
 			local Vector, OnScreen = Camera:WorldToViewportPoint(Model.Position)
 
