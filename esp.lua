@@ -1,7 +1,7 @@
 local Library = {}
 Library.__index = Library
 
-_G.ESPVERSION = "2D" setclipboard(_G.ESPVERSION)
+_G.ESPVERSION = "2E" setclipboard(_G.ESPVERSION)
 
 local Connections = {}
 local Wrapped = {}
@@ -67,7 +67,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		local BasePart = Model
 		
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
-			if not ESP.Settings.Enabled then Table.Text.Visible = false return end
+			if not ESP.Settings.Enabled and not ESP.Texts.Enabled then Table.Text.Visible = false return end
 			local Vector, OnScreen = Vector2.new(0,0)
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
@@ -153,7 +153,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		Table.Box = Draw("Square")
 		local BasePart = Model
 		Table.Connections.Box = RunService.RenderStepped:Connect(function()
-			if not ESP.Settings.Enabled then Table.Box.Visible = false return end
+			if not ESP.Settings.Enabled and not ESP.Boxes.Enabled then Table.Box.Visible = false return end
 			local HRPCFrame, HRPSize
 			local Vector, OnScreen
 			local HeadOffset, LegsOffset
@@ -224,7 +224,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		Table.Tracer = Draw("Line")
 		local BasePart = Model
 		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()
-			if not ESP.Settings.Enabled then Table.Tracer.Visible = false return end
+			if not ESP.Settings.Enabled and not ESP.Tracers.Enabled then Table.Tracer.Visible = false return end
 			local HRPCFrame, HRPSize
 			local Vector, OnScreen
 			if Players_ESP then
