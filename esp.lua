@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1u"
+_G.ESPVERSION = "1v"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -32,11 +32,10 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		},
 		Boxes = {
 			Enabled = true,
-			--Type = 1; -- 1 - 3D; 2 - 2D;
-			Color = Color3.fromRGB(50, 120, 255),--"50, 120, 255",
+			Color = Color3.fromRGB(50, 120, 255),
 			Transparency = 0.7,
 			Thickness = 1,
-			Filled = false, -- For 2D
+			Filled = false,
 			Increase = 1
 		},
 		Settings = {
@@ -73,7 +72,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 				end	
 			end
-			--local Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 
 			Table.Text.Visible = ESP.Texts.Enabled
 
@@ -142,10 +140,71 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		end)
 	end
 
-	local function AddBox(BasePart)
+	local function AddBox(Model)
+		local Table = GetTable(Model)
+		Table.Box = Draw("Square")
+		Table.Connections.Box = RunService.RenderStepped:Connect(function()
+			--local Vector, OnScreen = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position)
+			--local HRPCFrame, HRPSize = Model.Character.HumanoidRootPart.CFrame, Model.Character.HumanoidRootPart.Size * ESP.Boxes.Increase
+			local BasePart = Model
+			local HRPCFrame, HRPSize
+			local Vector, OnScreen
+			if Players_ESP then
+				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
+					BasePart = Model.Character.HumanoidRootPart
+					HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size * ESP.Boxes.Increase
+					Vector, OnScreen = Camera:WorldToViewportPoint(Model.Position)
+				end	
+			end
+			local HeadOffset = Camera:WorldToViewportPoint(Model.Character.Head.Position + Vector3.new(0, 0.5, 0))
+			local LegsOffset = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
 
+			Table.Box.Visible = ESP.Boxes.Enabled
+				
+				
+			local function UpdateBox()
+				Table.Box.Thickness = ESP.Boxes.Thickness
+				Table.Box.Color = ESP.Boxes.Color
+				Table.Box.Transparency = ESP.Boxes.Transparency
+				Table.Box.Filled = ESP.Boxes.Filled
+				Table.Box.Size = Vector2.new(2000 / Vector.Z, HeadOffset.Y - LegsOffset.Y)
+				Table.Box.Position = Vector2.new(Vector.X - Table.Box.Size.X / 2, Vector.Y - Table.Box.Size.Y / 2)
+			end
+
+			if OnScreen then
+				if ESP.Boxes.Enabled then
+					if Players_ESP then
+						local Checks = {Alive = true, Team = true}
+
+						if ESP.Texts.AliveCheck then
+							Checks.Alive = (Model.Character:FindFirstChild("Humanoid").Health > 0)
+						else
+							Checks.Alive = true
+						end
+
+						if ESP.Settings.TeamCheck then
+							Checks.Team = (Model.TeamColor ~= LocalPlayer.TeamColor)
+						else
+							Checks.Team = true
+						end
+
+						if Checks.Alive and Checks.Team then
+							Table.Box.Visible = true
+						else
+							Table.Box.Visible = false
+						end
+					end
+
+					if Table.Box.Visible then
+						UpdateBox()
+					end
+				end
+			else
+				Table.Box.Visible = false
+			end
+		end)
 	end
-	
+
 	local function AddTracer(Model)
 		local Table = GetTable(Model)
 		Table.Tracer = Draw("Line")
@@ -161,7 +220,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 				end	
 			end
-			
+
 			--local HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
 			--local Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 			Table.Tracer.Visible = ESP.Tracers.Enabled
@@ -202,12 +261,12 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 						end
 
 						if Checks.Alive and Checks.Team then
-							Table.Text.Visible = true
+							Table.Tracer.Visible = true
 						else
-							Table.Text.Visible = false
+							Table.Tracer.Visible = false
 						end
 					end
-					
+
 
 					if Table.Tracer.Visible then
 						UpdateTracer()
@@ -216,9 +275,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			else
 				Table.Tracer.Visible = false
 			end
-			--else
-			--PlayerTable.Tracer.Visible = false
-			--end
 		end)
 	end
 
