@@ -208,8 +208,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 	local function Load() -- check if player or not then send appropriate model
 		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
 		--Wrap(v[part])
-		for _, v in next, Parent:GetChildren() do
-			UnWrap(v)
+		for _, v in pairs(Parent:GetChildren()) do
+			--UnWrap(v)
 		end
 
 		for _, v in pairs(Parent:GetChildren()) do
