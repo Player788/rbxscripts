@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1j"
+_G.ESPVERSION = "1k"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -61,7 +61,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 
 	local function AddText(Model)
 		local Table = GetTable(Model)
-
+		print(Model.Name)
 		Table.Text = Draw("Text")
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
@@ -171,6 +171,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 -- 		end
 
 		if not Table then
+			print(Model.Name)
 			Wrapped[#Wrapped + 1] = Value
 
 			AddText(Model)
@@ -209,10 +210,11 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
 		--Wrap(v[part])
 		for _, v in pairs(Parent:GetChildren()) do
-			--UnWrap(v)
+			UnWrap(v)
 		end
 
 		for _, v in pairs(Parent:GetChildren()) do
+			print(v.Name)
 			Wrap(v)
 		end
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
