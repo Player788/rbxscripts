@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1v"
+_G.ESPVERSION = "1x"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -153,7 +153,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
 					BasePart = Model.Character.HumanoidRootPart
 					HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size * ESP.Boxes.Increase
-					Vector, OnScreen = Camera:WorldToViewportPoint(Model.Position)
+					Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 				end	
 			end
 			local HeadOffset = Camera:WorldToViewportPoint(Model.Character.Head.Position + Vector3.new(0, 0.5, 0))
