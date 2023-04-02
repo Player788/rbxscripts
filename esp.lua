@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1G"
+_G.ESPVERSION = "1H"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -164,11 +164,11 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 	local function Wrap(Model)
 		local Table, Value = nil, {Name = Model.Name, Connections = {}, Text = nil, Tracer = nil, Box = nil}
 
-		for _, v in next, Wrapped do
-			if v[1] == Model.Name then
-				Table = v
-			end
-		end
+-- 		for _, v in next, Wrapped do
+-- 			if v[1] == Model.Name then
+-- 				Table = v
+-- 			end
+-- 		end
 
 		if not Table then
 			Wrapped[#Wrapped + 1] = Value
