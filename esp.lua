@@ -1,7 +1,11 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1y"
-setclipboard(_G.ESPVERSION)
+
+_G.ESPVERSION = "1z" setclipboard(_G.ESPVERSION)
+
+local Connections = {}
+local Wrapped = {}
+
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
@@ -45,9 +49,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		}
 
 	}
-
-	local Connections = {}
-	local Wrapped = {}
+	
 	local Draw = Drawing.new
 
 	local function GetTable(Model)
@@ -333,10 +335,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			Table.Tracer:Remove()
 			Table.Box:Remove()
 
-			for _, v in next, Table.Box do
-				v:Remove()
-			end
-
 			Wrapped[Index] = nil
 		end
 	end
@@ -392,4 +390,21 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	return self
 end
 
+function Library:Exit()
+	for _, v in next, Connections do
+		v:Disconnect()
+	end
+
+	--for _, v in next, Players:GetPlayers() do
+	--	if v ~= LocalPlayer then
+	--		UnWrap(v)
+	--	end
+	--end
+
+	self.ESP = nil
+end
+
+pcall(function()
+	Library:Exit()
+end)
 return Library
