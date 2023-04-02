@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1r"
+_G.ESPVERSION = "1s"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -65,14 +65,13 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		Table.Text = Draw("Text")
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
-			--local Model = BasePart
+			local BasePart = Model
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
-					Model = Model.Character.Head
-				end
-				
+					BasePart = Model.Character.Head
+				end	
 			end
-			local Vector, OnScreen = Camera:WorldToViewportPoint(Model.Position)
+			local Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 
 			Table.Text.Visible = ESP.Texts.Enabled
 
@@ -88,8 +87,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				Table.Text.Position = Vector2.new(Vector.X, Vector.Y - 25)
 
 				local Parts = {
-					Health = 0,--"("..tostring(Player.Character.Humanoid.Health)..")",
-					Distance = "["..tostring(math.floor((Model.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
+					Health = 0,
+					Distance = "["..tostring(math.floor((BasePart.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
 					Name = Model.Name
 				}
 
@@ -99,7 +98,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					Content = Parts.Name..Content
 				end
 				if ESP.Texts.DisplayHealth and ESP.Texts.DisplayName then
-					Content = Content .. "" .. tostring(Model.Parent.Humanoid.Health)
+					Content = Content .. "" .. tostring(Model.Character.Humanoid.Health)
 				end
 				if ESP.Texts.DisplayDistance then
 					Content = Content.." "..Parts.Distance
@@ -137,9 +136,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 			else
 				Table.Text.Visible = false
 			end
-			--else
-			--PlayerTable.ESP.Visible = false
-			--end
 		end)
 	end
 
