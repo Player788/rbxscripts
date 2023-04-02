@@ -1,11 +1,12 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1m"
+_G.ESPVERSION = "1n"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local Camera = game:GetService("Workspace").CurrentCamera
+local LocalPlayer = Players.LocalPlayer
 
 function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	local ESP = {
@@ -65,6 +66,10 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
 			--if Player.Character and Player.Character:FindFirstChild("Humanoid") and Player.Character:FindFirstChild("Head") and Player.Character:FindFirstChild("HumanoidRootPart") and Environment.Settings.Enabled then
+			if Players_ESP then
+				repeat wait() until Model:HasAppearanceLoaded()
+				Model = Model.Character.HumanoidRootPart
+			end
 			local Vector, OnScreen = Camera:WorldToViewportPoint(Model.Position)
 
 			Table.Text.Visible = ESP.Texts.Enabled
@@ -82,7 +87,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 				local Parts = {
 					--Health = "("..tostring(Player.Character.Humanoid.Health)..")",
-					Distance = "["..tostring(math.floor((Model.Position - (Model.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
+					Distance = "["..tostring(math.floor((Model.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
 					Name = Model.Name
 				}
 
@@ -200,27 +205,52 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		end
 	end
 
-	local function Load() -- check if player or not then send appropriate model
-		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
-		--Wrap(v[part])
-		local part = Parent:FindFirstChildOfClass("Model"):FindFirstChildOfClass("BasePart")
-		for _, v in pairs(Parent:GetChildren()) do
-			v = v:FindFirstChild(Part) or part
-			UnWrap(v)
-		end
+	local function Load()
+		if not Players_ESP then
+			local part = Parent:FindFirstChildOfClass("Model"):FindFirstChildOfClass("BasePart")
+			for _, v in pairs(Parent:GetChildren()) do
+				v = v:FindFirstChild(Part) or part
+				UnWrap(v)
+			end
 
-		for _, v in pairs(Parent:GetChildren()) do
-			v = v:FindFirstChild(Part) or part
-			Wrap(v)
+			for _, v in pairs(Parent:GetChildren()) do
+				v = v:FindFirstChild(Part) or part
+				Wrap(v)
+			end
+			Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
+				v = v:FindFirstChild(Part) or part
+				Wrap(v)
+			end)
+			Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
+				v = v:FindFirstChild(Part) or part
+				UnWrap(v)
+			end)
+		else
+			for _, v in next, Players:GetPlayers() do
+				if v ~= LocalPlayer then
+					UnWrap(v)
+				end
+			end
+
+			for _, v in next, Players:GetPlayers() do
+				if v ~= LocalPlayer then
+					Wrap(v)
+				end
+			end
+
+			Connections.PlayerAdded = Players.PlayerAdded:Connect(function(v)
+				if v ~= LocalPlayer then
+					Wrap(v)
+				end
+			end)
+
+			Connections.PlayerRemoving = Players.PlayerRemoving:Connect(function(v)
+				if v ~= LocalPlayer then
+					UnWrap(v)
+				end						
+			end)
 		end
-		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
-			v = v:FindFirstChild(Part) or part
-			Wrap(v)
-		end)
-		Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
-			v = v:FindFirstChild(Part) or part
-			UnWrap(v)
-		end)
+		
 	end
 	Load()
 	return self
