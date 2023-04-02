@@ -1,7 +1,7 @@
 local Library = {}
 Library.__index = Library
 
-_G.ESPVERSION = "2B" setclipboard(_G.ESPVERSION)
+_G.ESPVERSION = "2C" setclipboard(_G.ESPVERSION)
 
 local Connections = {}
 local Wrapped = {}
@@ -76,7 +76,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				end
 			else
 				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
-				Model = Model.Parent
+				---BasePart = Model.Parent
 			end
 
 			Table.Text.Visible = ESP.Texts.Enabled
@@ -95,7 +95,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				local Parts = {
 					Health = 0,
 					Distance = "["..tostring(math.floor((BasePart.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
-					Name = Model.Name
+					Name = BasePart.Parent.Name
 				}
 
 				local Content = ""
