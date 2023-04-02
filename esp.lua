@@ -1,7 +1,7 @@
 local Library = {}
 Library.__index = Library
 
-_G.ESPVERSION = "2C" setclipboard(_G.ESPVERSION)
+_G.ESPVERSION = "2D" setclipboard(_G.ESPVERSION)
 
 local Connections = {}
 local Wrapped = {}
@@ -67,7 +67,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		local BasePart = Model
 		
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
-			
+			if not ESP.Settings.Enabled then Table.Text.Visible = false return end
 			local Vector, OnScreen = Vector2.new(0,0)
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
@@ -97,11 +97,9 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					Distance = "["..tostring(math.floor((BasePart.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
 					Name = nil
 				}
-				
 				pcall(function()
 					Parts.Name = BasePart.Parent.Name		
 				end)
-					
 				local Content = ""
 
 				if ESP.Texts.DisplayName then
@@ -155,6 +153,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		Table.Box = Draw("Square")
 		local BasePart = Model
 		Table.Connections.Box = RunService.RenderStepped:Connect(function()
+			if not ESP.Settings.Enabled then Table.Box.Visible = false return end
 			local HRPCFrame, HRPSize
 			local Vector, OnScreen
 			local HeadOffset, LegsOffset
@@ -224,7 +223,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		local Table = GetTable(Model)
 		Table.Tracer = Draw("Line")
 		local BasePart = Model
-		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()	
+		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()
+			if not ESP.Settings.Enabled then Table.Tracer.Visible = false return end
 			local HRPCFrame, HRPSize
 			local Vector, OnScreen
 			if Players_ESP then
@@ -237,8 +237,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.CFrame * CFrame.new(0, -BasePart.Size.Y, 0).Position)
 			end
 
-			--local HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
-			--local Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 			Table.Tracer.Visible = ESP.Tracers.Enabled
 
 			local function UpdateTracer()
