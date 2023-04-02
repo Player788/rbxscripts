@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1t"
+_G.ESPVERSION = "1u"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -66,12 +66,14 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 		Table.Connections.Text = RunService.RenderStepped:Connect(function()
 			local BasePart = Model
+			local Vector, OnScreen = Vector2.new(0,0)
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
 					BasePart = Model.Character.Head
+					Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 				end	
 			end
-			local Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
+			--local Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 
 			Table.Text.Visible = ESP.Texts.Enabled
 
@@ -150,14 +152,18 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()
 			local BasePart = Model
+			local HRPCFrame, HRPSize
+			local Vector, OnScreen
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
 					BasePart = Model.Character.HumanoidRootPart
+					HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
+					Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 				end	
 			end
 			
-			local HRPCFrame, HRPSize = BasePart.CFrame,BasePart.Size
-			local Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
+			--local HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
+			--local Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 			Table.Tracer.Visible = ESP.Tracers.Enabled
 
 			local function UpdateTracer()
