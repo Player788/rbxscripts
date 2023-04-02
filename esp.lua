@@ -162,7 +162,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 
 			local function UpdateTracer()
 				Table.Tracer.Thickness = ESP.Tracers.Thickness
-				Table.Tracer.Color = Color3.fromRGB(ESP.Tracers.Color)
+				Table.Tracer.Color = ESP.Tracers.Color
 				Table.Tracer.Transparency = ESP.Tracers.Transparency
 
 				Table.Tracer.To = Vector2.new(Vector.X, Vector.Y)
