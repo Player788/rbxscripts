@@ -146,7 +146,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	
 	local function AddTracer(Model)
 		local Table = GetTable(Model)
-		Table.Tracter = Draw("Line")
+		Table.Tracer = Draw("Line")
 
 		Table.Connections.Tracer = RunService.RenderStepped:Connect(function()
 			local BasePart = Model
