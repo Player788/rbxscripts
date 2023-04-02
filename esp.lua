@@ -1,7 +1,7 @@
 local Library = {}
 Library.__index = Library
 
-_G.ESPVERSION = "1z" setclipboard(_G.ESPVERSION)
+_G.ESPVERSION = "2A" setclipboard(_G.ESPVERSION)
 
 local Connections = {}
 local Wrapped = {}
@@ -101,7 +101,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				if ESP.Texts.DisplayName then
 					Content = Parts.Name..Content
 				end
-				if ESP.Texts.DisplayHealth and ESP.Texts.DisplayName then
+				if ESP.Texts.DisplayHealth and ESP.Texts.DisplayName and Players_ESP then
 					Content = "(" .. tostring(Model.Character.Humanoid.Health) .. ") " .. Content
 				end
 				if ESP.Texts.DisplayDistance then
