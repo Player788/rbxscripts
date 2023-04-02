@@ -1,13 +1,13 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1l"
+_G.ESPVERSION = "1m"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local Camera = game:GetService("Workspace").CurrentCamera
 
-function Library.new(Players_ESP:boolean, Parent:Instance)
+function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 	local ESP = {
 		Texts = {
 			Enabled = true,
@@ -156,10 +156,6 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 		end,
 	})
 
-	if not Players_ESP then
-
-	end
-
 	local function Wrap(Model)
 		local Table, Value = nil, {Model = Model, Connections = {}, Text = nil, Tracer = nil, Box = nil}
 
@@ -207,18 +203,22 @@ function Library.new(Players_ESP:boolean, Parent:Instance)
 	local function Load() -- check if player or not then send appropriate model
 		--local part = Parent:FindFirstChildOfClass("Model"):FindFirstChild(Child)
 		--Wrap(v[part])
+		local part = Parent:FindFirstChildOfClass("Model"):FindFirstChildOfClass("BasePart")
 		for _, v in pairs(Parent:GetChildren()) do
+			v = v:FindFirstChild(Part) or part
 			UnWrap(v)
 		end
 
 		for _, v in pairs(Parent:GetChildren()) do
-			print(v.Name)
+			v = v:FindFirstChild(Part) or part
 			Wrap(v)
 		end
 		Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
+			v = v:FindFirstChild(Part) or part
 			Wrap(v)
 		end)
 		Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
+			v = v:FindFirstChild(Part) or part
 			UnWrap(v)
 		end)
 	end
