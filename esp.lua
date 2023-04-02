@@ -95,9 +95,13 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				local Parts = {
 					Health = 0,
 					Distance = "["..tostring(math.floor((BasePart.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
-					Name = BasePart.Parent.Name
+					Name = nil
 				}
-
+				
+				pcall(function()
+					Parts.Name = BasePart.Parent.Name		
+				end)
+					
 				local Content = ""
 
 				if ESP.Texts.DisplayName then
