@@ -1,6 +1,6 @@
 local Library = {}
 Library.__index = Library
-_G.ESPVERSION = "1x"
+_G.ESPVERSION = "1y"
 setclipboard(_G.ESPVERSION)
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -70,7 +70,9 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
 					BasePart = Model.Character.Head
 					Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
-				end	
+				end
+			else
+				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
 			end
 
 			Table.Text.Visible = ESP.Texts.Enabled
@@ -144,20 +146,26 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		local Table = GetTable(Model)
 		Table.Box = Draw("Square")
 		Table.Connections.Box = RunService.RenderStepped:Connect(function()
-			--local Vector, OnScreen = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position)
-			--local HRPCFrame, HRPSize = Model.Character.HumanoidRootPart.CFrame, Model.Character.HumanoidRootPart.Size * ESP.Boxes.Increase
+
 			local BasePart = Model
 			local HRPCFrame, HRPSize
 			local Vector, OnScreen
+			local HeadOffset, LegsOffset
 			if Players_ESP then
 				if Model.Character and Model.Character:FindFirstChild("Humanoid") and Model.Character:FindFirstChild("Head") and Model.Character:FindFirstChild("HumanoidRootPart") then
 					BasePart = Model.Character.HumanoidRootPart
 					HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size * ESP.Boxes.Increase
 					Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
-				end	
+					HeadOffset = Camera:WorldToViewportPoint(Model.Character.Head.Position + Vector3.new(0, 0.5, 0))
+					LegsOffset = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
+				end
+			else
+				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.Position)
+				HeadOffset = Camera:WorldToViewportPoint(BasePart.Position + Vector3.new(0, 0.5, 0))
+				LegsOffset = Camera:WorldToViewportPoint(BasePart.Position - Vector3.new(0, 3, 0))
 			end
-			local HeadOffset = Camera:WorldToViewportPoint(Model.Character.Head.Position + Vector3.new(0, 0.5, 0))
-			local LegsOffset = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
+			--local HeadOffset = Camera:WorldToViewportPoint(Model.Character.Head.Position + Vector3.new(0, 0.5, 0))
+			--local LegsOffset = Camera:WorldToViewportPoint(Model.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
 
 			Table.Box.Visible = ESP.Boxes.Enabled
 				
@@ -219,6 +227,8 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 					HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
 					Vector, OnScreen = Camera:WorldToViewportPoint(HRPCFrame * CFrame.new(0, -HRPSize.Y, 0).Position)
 				end	
+			else
+				Vector, OnScreen = Camera:WorldToViewportPoint(BasePart.CFrame * CFrame.new(0, -BasePart.Size.Y, 0).Position)
 			end
 
 			--local HRPCFrame, HRPSize = BasePart.CFrame, BasePart.Size
