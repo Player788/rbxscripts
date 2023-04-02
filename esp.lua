@@ -92,7 +92,7 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 				local Parts = {
 					--Health = "("..tostring(Player.Character.Humanoid.Health)..")",
 					Distance = "["..tostring(math.floor((Model.Position - (LocalPlayer.Character.HumanoidRootPart.Position or Vector3.new(0, 0, 0))).Magnitude)).."]",
-					Name = Model.Name
+					Name = BasePart.Name
 				}
 
 				local Content = ""
