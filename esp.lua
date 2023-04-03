@@ -345,20 +345,20 @@ function Library.new(Players_ESP:boolean, Parent:Instance, Part:string)
 		if not Players_ESP then
 			local part = Parent:FindFirstChildOfClass("Model"):FindFirstChildOfClass("BasePart")
 			for _, v in pairs(Parent:GetChildren()) do
-				v = v:FindFirstChild(Part) or part
+				v = v:WaitForChild(Part)-- or part
 				UnWrap(v)
 			end
 
 			for _, v in pairs(Parent:GetChildren()) do
-				v = v:FindFirstChild(Part) or part
+				v = v:WaitForChild(Part)-- or part
 				Wrap(v)
 			end
 			Connections.ChildAdded = Parent.ChildAdded:Connect(function(v)
-				v = v:FindFirstChild(Part) or part
+				v = v:WaitForChild(Part)-- or part
 				Wrap(v)
 			end)
 			Connections.ChildRemoving = Parent.ChildRemoved:Connect(function(v)
-				v = v:FindFirstChild(Part) or part
+				v = v:WaitForChild(Part)-- or part
 				UnWrap(v)
 			end)
 		else
